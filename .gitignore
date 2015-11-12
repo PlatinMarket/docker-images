@@ -1,0 +1,9 @@
+# OS Related
+.DS_Store
+thumbs.db
+
+# Temp
+/vendor
+
+# Else
+/scripts/_git_pull_all.sh

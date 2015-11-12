@@ -1,0 +1,39 @@
+
+# Default server configuration
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# Server name
+	server_name _;
+
+	# Server root location
+	root /var/www/public;
+
+	# Default location
+	index index.html;
+
+	# Error pages
+	# 404
+	error_page 404 /404.html;
+  location = /404.html {
+    root /var/www/error_pages;
+    internal;
+  }
+	# 50x
+	error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /var/www/error_pages;
+    internal;
+  }
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+}
