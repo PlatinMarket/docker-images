@@ -3,6 +3,7 @@
 thumbs.db
 
 # Temp
+/temp
 /vendor
 
 # Else
