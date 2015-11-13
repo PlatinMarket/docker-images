@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+args="$@"
+cmd="$1"
+args="${args/$cmd /}"
+cmd="$TOOLBOXFOLDER/$cmd.sh"
+
+if [ -e $cmd ]; then
+  /bin/bash $cmd $args
+else
+  echo "Command $cmd not found"
+  exit 1
+fi

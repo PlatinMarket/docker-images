@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "Updating docker-toolbox"
+cd /docker-toolbox && git reset --hard && git pull
+chmod +x /docker-toolbox

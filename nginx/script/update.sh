@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "Updating."
+echo "Updating OS."
 
 # Update OS
 apt-get update && apt-get -y upgrade

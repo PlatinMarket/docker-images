@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# Get Tags
+IFS=', ' read -r -a array <<< "$TAG"
+
+# For each tag
+for tag in "${array[@]}"
+do
+  echo "Getting settings for tag $tag."
+
+  # checking platin_init.d dir
+  if [ -e $BASEFOLDER/$tag/platin_init.d/*.sh ]; then
+    echo "Adding scripts from $BASEFOLDER/$tag/platin_init.d to /etc/platin_init.d"
+    chmod +x $BASEFOLDER/$tag/platin_init.d/*.sh
+    cp $BASEFOLDER/$tag/platin_init.d/*.sh /etc/platin_init.d/
+  fi
+
+  # checking my_init.d dir
+  if [ -e $BASEFOLDER/$tag/my_init.d/*.sh ]; then
+    echo "Adding scripts from $BASEFOLDER/$tag/my_init.d to /etc/my_init.d"
+    chmod +x $BASEFOLDER/$tag/my_init.d/*.sh
+    cp $BASEFOLDER/$tag/my_init.d/*.sh /etc/my_init.d/
+  fi
+
+  # checking config dir
+  if [ -e $BASEFOLDER/$tag/config ]; then
+    echo "Adding config files from $BASEFOLDER/$tag/config to /"
+    cp -rf $BASEFOLDER/$tag/config/* /
+  fi
+done
+
+# Run platin_init.d scripts
+echo "Running platin init scripts."
+directory=/etc/platin_init.d
+find $directory -name '*.sh' |
+while read filename
+do
+  /bin/bash $filename
+done
+
+if [ $? -eq 0 ]; then
+    echo "Done"
+    exit 0
+else
+    echo "Fail"
+    exit 1
+fi
