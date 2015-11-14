@@ -5,6 +5,9 @@ FROM phusion/baseimage:0.9.17
 # Make mount point
 RUN mkdir -p /mnt/base
 
+# Change repository country to nearest
+RUN sudo sed -i 's/http:\/\//http:\/\/tr./g' /etc/apt/sources.list
+
 # Environment
 ENV TOOLBOXFOLDER=/docker-toolbox
 ENV BASEFOLDER=/mnt/base

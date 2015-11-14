@@ -8,7 +8,7 @@ server {
 	server_name _;
 
 	# Server root location
-	root /var/www/public;
+	root /var/www/platinmarket-www-root/public;
 
 	# Default location
 	index index.html;
@@ -17,13 +17,13 @@ server {
 	# 404
 	error_page 404 /404.html;
   location = /404.html {
-    root /var/www/error_pages;
+    root /var/www/platinmarket-www-root/error_pages;
     internal;
   }
 	# 50x
 	error_page 500 502 503 504 /50x.html;
   location = /50x.html {
-    root /var/www/error_pages;
+    root /var/www/platinmarket-www-root/error_pages;
     internal;
   }
 
