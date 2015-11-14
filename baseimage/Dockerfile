@@ -1,6 +1,7 @@
 # Use phusion/baseimage as base image. To make your builds reproducible, make
 # https://github.com/phusion/baseimage-docker
 FROM phusion/baseimage:0.9.17
+ENV DEBIAN_FRONTEND noninteractive
 
 # Make mount point
 RUN mkdir -p /mnt/base
