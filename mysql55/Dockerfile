@@ -5,28 +5,30 @@ FROM platinmarket/baseimage:latest
 # Environment
 ENV TAG=all,database,sql,mysql,mysql55
 
+# create data dir
+RUN mkdir /data
+
 # Add build folder
 ADD build /build
 RUN chmod +x /build/*
 
-# Run build scripts
-RUN /build/prepare.sh
+# Add first run flag
+RUN touch /firstrun
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
 # Update apt cache & Install nginx
-RUN add-apt-repository ppa:nginx/stable
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y mysql-client mysql-server pwgen inotify-tools
 
-# Git clone www_root
-RUN /build/clone_www_root.sh
-
-# Run nginx config
-RUN /build/config_nginx.sh
+# Config mysql
+RUN /build/config_mysql.sh
 
 # Bind 80 Port
-EXPOSE 80
+EXPOSE 3306
+
+# Expose our data, log, and configuration directories.
+VOLUME ["/data", "/var/log"]
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /build

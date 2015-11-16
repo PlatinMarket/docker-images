@@ -39,5 +39,8 @@ RUN /build/config_ntp.sh
 # Setup ssh port
 EXPOSE 22
 
+# Expose our data, log, and configuration directories.
+VOLUME ["/mnt/base", "/var/log"]
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /build

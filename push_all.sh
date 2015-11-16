@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGES="baseimage,nginx"
-PREFIX="platinmarket"
+source .config.sh
 BASEFOLDER=$(pwd)
 
 # Get Tags

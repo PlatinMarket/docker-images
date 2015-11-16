@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-IMAGES="baseimage,nginx"
-PREFIX="platinmarket"
+source .config.sh
 BASEFOLDER=$(pwd)
+
+echo "Deleting all containers"
+docker stop $(docker ps -a | awk '{print $1}') 2> /dev/null
+docker rm $(docker ps -a | awk '{print $1}') 2> /dev/null
 
 # Get Tags
 IFS=', ' read -r -a array <<< "$IMAGES"
@@ -11,10 +14,6 @@ IFS=', ' read -r -a array <<< "$IMAGES"
 for IMAGE in "${array[@]}"
 do
   IMAGENAME="$PREFIX/$IMAGE"
-
-  echo "Deleting all containers"
-  docker stop $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
-  docker rm $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
 
   IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
   if [ ! -z $IMAGEID ]; then
