@@ -27,7 +27,7 @@ RUN /build/clone_www_root.sh
 RUN /build/config_nginx.sh
 
 # Installing PHP
-RUN apt-get install -y php5-fpm php5 php5-curl php5-gd php5-intl php5-mcrypt php5-imagick php5-xmlrpc php5-sqlite php5-redis php5-pgsql php5-oauth php5-mysqlnd php5-mysql php5-mongo php5-ldap php5-json php5-geoip php5-cli
+RUN apt-get install -y php5-fpm php5 php5-curl php5-gd php5-intl php5-mcrypt php5-imagick php5-xmlrpc php5-sqlite php5-redis php5-pgsql php5-oauth php5-mysql php5-mongo php5-ldap php5-json php5-geoip php5-cli
 
 # Run php config
 RUN /build/config_php.sh
