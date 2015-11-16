@@ -1,39 +1,38 @@
 #!/usr/bin/env bash
-
-IMAGES="baseimage,nginx"
+IMAGE="$1"
 PREFIX="platinmarket"
 BASEFOLDER=$(pwd)
+IMAGENAME="$PREFIX/$IMAGE"
 
-# Get Tags
-IFS=', ' read -r -a array <<< "$IMAGES"
+if [ ! -e ./$IMAGE/Dockerfile ]; then
+  echo "Dockerfile /$IMAGE/Dockerfile not found."
+  exit 1
+fi
 
-# For each tag
-for IMAGE in "${array[@]}"
-do
-  IMAGENAME="$PREFIX/$IMAGE"
+echo "Deleting existing $IMAGENAME containers."
+docker stop $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
+docker rm $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
 
-  echo "Deleting all containers"
-  docker stop $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
-  docker rm $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
+IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
+if [ ! -z $IMAGEID ]; then
+  echo "Deleting existing $IMAGENAME images."
+  docker rmi $IMAGEID 2> /dev/null
 
-  IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
-  if [ ! -z $IMAGEID ]; then
-    echo "Deleting old $IMAGENAME."
-    docker rmi $IMAGEID 2> /dev/null
+  if [ ! $? -eq 0 ]; then
+    echo "Delete failed."
+    exit 1
   fi
+fi
 
-  if [ -e ./$IMAGE/Dockerfile ]; then
-    cd ./$IMAGE
-    echo "Build $IMAGENAME started."
-    docker build -t "$IMAGENAME" .
-    cd ..
+cd ./$IMAGE
+echo "Build $IMAGENAME started."
+docker build -t "$IMAGENAME" . 2> /dev/null
+cd ..
 
-    if [ $? -eq 0 ]; then
-      echo "Build $IMAGENAME success"
-    else
-      echo "Build $IMAGENAME failed"
-      exit 1
-    fi
-  fi
-
-done
+if [ $? -eq 0 ]; then
+  echo "Build $IMAGENAME success."
+  exit 0
+else
+  echo "Build $IMAGENAME failed."
+  exit 1
+fi

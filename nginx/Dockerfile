@@ -25,8 +25,8 @@ RUN /build/clone_www_root.sh
 # Run nginx config
 RUN /build/config_nginx.sh
 
-# Bind 80 Port
-EXPOSE 80
+# Bind HTTP, HTTPS, SSL
+EXPOSE 80 443
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /build
