@@ -19,7 +19,7 @@ fi
 if [[ ! "$(ls -A $ROOTDIR)" ]]; then
   echo "Initializing root at $DATA_DIR"
   cp -R /var/www/platinmarket-www-root/public/* $ROOTDIR/
-  echo "<?php\nphpinfo();\n?>" > $ROOTDIR/index.php
+  echo "<?php phpinfo(); ?>" > $ROOTDIR/index.php
 fi
 
 service nginx start

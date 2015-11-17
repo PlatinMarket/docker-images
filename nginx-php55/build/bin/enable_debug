@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sed -i -e "s/display_errors = Off/display_errors = On/g" /etc/php5/fpm/php.ini
+killall php5-fpm

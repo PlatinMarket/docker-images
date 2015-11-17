@@ -4,6 +4,10 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server ipv6only=on;
 
+	# Max upload size
+	client_max_body_size 20m;
+	client_body_buffer_size 128k;
+
 	# Server name
 	server_name _;
 
@@ -43,12 +47,14 @@ server {
   }
 
 	location ~* \.(jpg|jpeg|gif|png|css|js|ico)$ {
+    log_not_found     off;
     expires           5d;
   }
 
 	# deny access to . files, for security
 	#
 	location ~ /\. {
+    access_log off;
 		log_not_found off;
 		deny all;
 	}
