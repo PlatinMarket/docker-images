@@ -22,4 +22,4 @@ if [[ ! "$(ls -A $ROOTDIR)" ]]; then
   echo "<?php phpinfo(); ?>" > $ROOTDIR/index.php
 fi
 
-service nginx start
+nginx

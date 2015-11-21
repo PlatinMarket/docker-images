@@ -11,7 +11,7 @@ for IMAGE in "${array[@]}"
 do
   IMAGENAME="$PREFIX/$IMAGE"
 
-  IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
+  IMAGEID=$(docker images | grep "$IMAGENAME " | awk '{print $3}')
   if [ -z $IMAGEID ]; then
     echo "Build $IMAGENAME first."
     exit 1

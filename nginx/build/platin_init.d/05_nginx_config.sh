@@ -18,5 +18,5 @@ done
 # Restart nginx service, if it exists.
 if [ -e /etc/service/nginx/run ]; then
   echo "Reloading nginx."
-  service nginx reload
+  killall nginx
 fi

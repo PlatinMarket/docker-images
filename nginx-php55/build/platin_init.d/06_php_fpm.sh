@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Cleanup previous sockets
+if [ -e /var/run/php5-fpm.sock ]; then
+  rm -f /var/run/php5-fpm.sock 2> /dev/null
+fi
+if [ -e /var/run/php5-fpm.pid ]; then
+  rm -f /var/run/php5-fpm.pid 2> /dev/null
+fi
+
 APPNAME=${APPNAME:-$HOSTNAME}
 
 # Get Tags
@@ -19,4 +27,5 @@ done
 if [ -e /etc/service/php/run ]; then
   echo "Reloading php5-fpm."
   killall php5-fpm
+  sleep 1s
 fi

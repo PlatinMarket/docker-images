@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MYSQLUSER=$(cat /root/.mysql/mysql_user)
+MYSQLPASS=$(cat /root/.mysql/mysql_pass)
+
+echo "{\"user\":\"$MYSQLUSER\",\"pass\":\"$MYSQLPASS\"}"

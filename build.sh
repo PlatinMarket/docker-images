@@ -10,10 +10,10 @@ if [ ! -e ./$IMAGE/Dockerfile ]; then
 fi
 
 echo "Deleting existing $IMAGENAME containers."
-docker stop $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
-docker rm $(docker ps -a | grep "$IMAGENAME" | awk '{print $1}') 2> /dev/null
+docker stop $(docker ps -a | grep "$IMAGENAME " | awk '{print $1}') 2> /dev/null
+docker rm $(docker ps -a | grep "$IMAGENAME " | awk '{print $1}') 2> /dev/null
 
-IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
+IMAGEID=$(docker images | grep "$IMAGENAME " | awk '{print $3}')
 if [ ! -z $IMAGEID ]; then
   echo "Deleting existing $IMAGENAME images."
   docker rmi $IMAGEID 2> /dev/null

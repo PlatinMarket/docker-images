@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DATABASE="$1"
+
+# Wait for mysql
+while [[ ! -e /var/run/mysqld/mysqld.sock ]] ; do
+    inotifywait -q -e create /var/run/mysqld/ >> /dev/null
+done
+
+mysql --execute "CREATE DATABASE IF NOT EXISTS $DATABASE;"

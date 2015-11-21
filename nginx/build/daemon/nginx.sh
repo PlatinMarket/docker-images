@@ -7,4 +7,4 @@ if [ ! -d /var/log/nginx ]; then
   chmod -R 775 /var/log/nginx
 fi
 
-service nginx start
+nginx

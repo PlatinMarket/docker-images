@@ -15,8 +15,8 @@ for IMAGE in "${array[@]}"
 do
   IMAGENAME="$PREFIX/$IMAGE"
 
-  IMAGEID=$(docker images | grep "$IMAGENAME" | awk '{print $3}')
-  if [ ! -z $IMAGEID ]; then
+  IMAGEID=$(docker images | grep "$IMAGENAME " | awk '{print $3}')
+  if [ ! -z "$IMAGEID" ]; then
     echo "Deleting old $IMAGENAME."
     docker rmi $IMAGEID 2> /dev/null
 

@@ -15,6 +15,9 @@ RUN chmod +x /build/*
 # Add first run flag
 RUN touch /firstrun
 
+# Run build scripts
+RUN /build/prepare.sh
+
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
