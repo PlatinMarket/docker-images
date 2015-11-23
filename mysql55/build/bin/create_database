@@ -2,9 +2,8 @@
 
 DATABASE="$1"
 
-# Wait for mysql
-while [[ ! -e /var/run/mysqld/mysqld.sock ]] ; do
-    inotifywait -q -e create /var/run/mysqld/ >> /dev/null
+while ! mysqladmin ping -h "localhost" --silent; do
+    sleep 1
 done
 
 mysql --execute "CREATE DATABASE IF NOT EXISTS $DATABASE;"

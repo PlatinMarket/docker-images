@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# Stop on error
+set -e
+
 # Set directories
-MYSQL_DATA_DIR=/var/lib/mysql
 DATA_DIR=/data
+MYSQL_LOG=$DATA_DIR/mysql.log
 HOME_DIR=/root
 
 # Cleanup previous sockets
-if [ -e $BASEFOLDER/$tag/hosts ]; then
+if [ -f /run/mysqld/mysqld.sock ]; then
   rm -f /run/mysqld/mysqld.sock 2> /dev/null
 fi
 
@@ -16,8 +19,8 @@ fi
 
 wait_for_first_run() {
   # Wait for mysql to finish starting up first.
-  while [[ ! -e /var/run/mysqld/mysqld.sock ]] ; do
-      inotifywait -q -e create /var/run/mysqld/ >> /dev/null
+  while [[ ! -e /run/mysqld/mysqld.sock ]] ; do
+      inotifywait -q -e create /run/mysqld/ >> /dev/null
   done
 
   # After first run create users
@@ -41,6 +44,7 @@ after_first_start() {
       CREATE USER '$USER'@'%' IDENTIFIED BY '$PASS';
       GRANT ALL PRIVILEGES ON *.* TO '$USER'@'%' WITH GRANT OPTION;
       FLUSH PRIVILEGES;
+      CREATE DATABASE IF NOT EXISTS $DATABASE;
 EOF
 
   # Remove first run flag
@@ -65,17 +69,23 @@ if [ -e /firstrun ]; then
   # Create MySQL user data
   USER=${USER:-admin}
   PASS=${PASS:-$(pwgen -s -1 16)}
+  DATABASE=${DATABASE:-$(pwgen -s -1 5)}
 
-  if [ -e $BASEFOLDER/$tag/hosts ]; then
+  # Ensure mysql owns the DATA_DIR
+  chown -R mysql $DATA_DIR
+
+  if [ -f "$HOME_DIR/.mysql/mysql_user" ]; then
     # Get existsing user data
     USER=$(cat $HOME_DIR/.mysql/mysql_user)
     PASS=$(cat $HOME_DIR/.mysql/mysql_pass)
+    DATABASE=$(cat $HOME_DIR/.mysql/mysql_db)
   else
     # Make .mysql folder
     mkdir -p $HOME_DIR/.mysql
     # Note MySql user data to root home dir
     echo "$USER" > $HOME_DIR/.mysql/mysql_user
     echo "$PASS" > $HOME_DIR/.mysql/mysql_pass
+    echo "$DATABASE" > $HOME_DIR/.mysql/mysql_db
   fi
 
   # Wait for start
@@ -84,4 +94,4 @@ fi
 
 # Start Mysql
 echo "Starting MySQL..."
-/usr/bin/mysqld_safe
+/usr/bin/mysqld_safe --skip-syslog --log-error=$MYSQL_LOG

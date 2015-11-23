@@ -2,5 +2,6 @@
 
 MYSQLUSER=$(cat /root/.mysql/mysql_user)
 MYSQLPASS=$(cat /root/.mysql/mysql_pass)
+MYSQLDB=$(cat /root/.mysql/mysql_db)
 
-echo "{\"user\":\"$MYSQLUSER\",\"pass\":\"$MYSQLPASS\"}"
+echo "{\"user\":\"$MYSQLUSER\",\"pass\":\"$MYSQLPASS\",\"db\":\"$MYSQLDB\"}"
