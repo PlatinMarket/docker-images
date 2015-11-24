@@ -32,6 +32,9 @@ RUN apt-get install -y php5-fpm php5 php5-curl php5-gd php5-intl php5-mcrypt php
 # Run php config
 RUN /build/config_php.sh
 
+# Install composer
+RUN /build/install_composer.sh
+
 # Bind HTTP, HTTPS, SSL
 EXPOSE 80 443
 

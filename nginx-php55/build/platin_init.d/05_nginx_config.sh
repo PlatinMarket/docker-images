@@ -28,5 +28,4 @@ fi
 if [ -e /etc/service/nginx/run ]; then
   echo "Reloading nginx."
   killall nginx
-  sleep 1s
 fi

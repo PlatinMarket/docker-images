@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while [[ ! -e /run/mysqld/mysqld.sock ]] ; do
+    inotifywait -q -e create /run/mysqld/ >> /dev/null
+done

@@ -27,5 +27,4 @@ done
 if [ -e /etc/service/php/run ]; then
   echo "Reloading php5-fpm."
   killall php5-fpm
-  sleep 1s
 fi
