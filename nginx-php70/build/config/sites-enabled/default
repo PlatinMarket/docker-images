@@ -1,0 +1,62 @@
+
+# Default server configuration
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server ipv6only=on;
+
+	# Max upload size
+	client_max_body_size 20m;
+	client_body_buffer_size 128k;
+
+	# Server name
+	server_name _;
+
+	# Server root location
+	root /var/www/web-app/public;
+
+	# Default location
+	index index.php index.html index.htm;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# Error pages
+	# 404
+	error_page 404 /404.html;
+  location = /404.html {
+    root /var/www/platinmarket-www-root/error_pages;
+    internal;
+  }
+	# 50x
+	error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /var/www/platinmarket-www-root/error_pages;
+    internal;
+  }
+
+	location ~ \.php$ {
+    try_files $uri =404;
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+
+	location ~* \.(jpg|jpeg|gif|png|css|js|ico)$ {
+    log_not_found     off;
+    expires           5d;
+  }
+
+	# deny access to . files, for security
+	#
+	location ~ /\. {
+    access_log off;
+		log_not_found off;
+		deny all;
+	}
+
+}
