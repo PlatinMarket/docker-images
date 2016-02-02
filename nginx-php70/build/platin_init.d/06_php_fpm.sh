@@ -1,20 +1,10 @@
 #!/usr/bin/env bash
 
-# Cleanup previous sockets
-if [ -e /run/php/php7.0-fpm.sock ]; then
-  rm -f /run/php/php7.0-fpm.sock 2> /dev/null
-fi
-if [ -e /run/php/php7.0-fpm.pid ]; then
-  rm -f /run/php/php7.0-fpm.pid 2> /dev/null
-fi
-
+# Check if sock not created
 if [ ! -f /run/php/php7.0-fpm.sock ]; then
+    mkdir /run/php/
     touch /run/php/php7.0-fpm.sock
     chmod 777 /run/php/php7.0-fpm.sock
-fi
-if [ ! -f /run/php/php7.0-fpm.pid]; then
-    touch /run/php/php7.0-fpm.pid
-    chmod 777 /run/php/php7.0-fpm.pid
 fi
 
 APPNAME=${APPNAME:-$HOSTNAME}
