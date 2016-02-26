@@ -20,6 +20,11 @@ do
     echo "Adding php-conf files from $BASEFOLDER/$tag/php-conf to /etc/php/7.0/fpm/conf.d/"
     cp -rf $BASEFOLDER/$tag/php-conf/* /etc/php/7.0/fpm/conf.d/
   fi
+
+  if [ -e $BASEFOLDER/$APPNAME/php-conf ]; then
+    echo "Adding php-conf files from $BASEFOLDER/$APPNAME/php-conf to /etc/php/7.0/fpm/conf.d/"
+    cp -rf $BASEFOLDER/$APPNAME/php-conf/* /etc/php/7.0/fpm/conf.d/
+  fi
 done
 
 # Restart php5 service, if it exists.
