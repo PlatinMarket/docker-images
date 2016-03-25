@@ -16,9 +16,12 @@ RUN /build/prepare.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# Update apt cache & Install nginx
+# Update apt cache
 RUN add-apt-repository ppa:nginx/stable
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update
+
+# Install nginx
+RUN apt-get install -y nginx
 
 # Git clone www_root
 RUN /build/clone_www_root.sh
@@ -27,13 +30,16 @@ RUN /build/clone_www_root.sh
 RUN /build/config_nginx.sh
 
 # Installing PHP
-RUN apt-get install -y php5-fpm php5 php5-curl php5-gd php5-intl php5-mcrypt php5-imagick php5-xmlrpc php5-sqlite php5-redis php5-pgsql php5-oauth php5-mysql php5-mongo php5-ldap php5-json php5-geoip php5-cli
+RUN apt-get install -y php5-fpm php5 php5-dev php5-curl php5-gd php5-intl php5-mcrypt php5-imagick php5-xmlrpc php5-sqlite php5-redis php5-pgsql php5-oauth php5-mysql php5-mongo php5-ldap php5-json php5-geoip php5-cli libzookeeper-mt-dev
 
 # Run php config
 RUN /build/config_php.sh
 
 # Install composer
 RUN /build/install_composer.sh
+
+# Install php-zookeeper
+RUN /build/php_zookeeper_install.sh
 
 # Bind HTTP, HTTPS, SSL
 EXPOSE 80 443
