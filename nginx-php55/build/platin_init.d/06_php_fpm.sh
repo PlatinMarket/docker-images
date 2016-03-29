@@ -28,6 +28,11 @@ do
   fi
 done
 
+if [ -f $BASEFOLDER/$APPNAME/www.conf ]; then
+  echo "Adding www.conf file from $BASEFOLDER/$APPNAME/www.conf to /etc/php5/fpm/pool.d/www.conf"
+  cp -f $BASEFOLDER/$APPNAME/www.conf /etc/php5/fpm/pool.d/www.conf
+fi
+
 # Restart php5 service, if it exists.
 if [ -e /etc/service/php/run ]; then
   echo "Reloading php5-fpm."
