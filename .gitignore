@@ -8,3 +8,5 @@ thumbs.db
 
 # Else
 /scripts/_git_pull_all.sh
+
+npm-debug.log
