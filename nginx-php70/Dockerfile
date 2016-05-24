@@ -28,7 +28,7 @@ RUN /build/clone_www_root.sh
 RUN /build/config_nginx.sh
 
 # Installing PHP
-RUN apt-get install -y php7.0-fpm php7.0 php7.0-curl php7.0-gd php7.0-intl php7.0-mcrypt php-imagick php-redis php7.0-xmlrpc php7.0-sqlite3 php7.0-pgsql php7.0-mysql php7.0-ldap php7.0-json php7.0-cli
+RUN apt-get install -y unzip zip php7.0-fpm php7.0 php7.0-xml php7.0-gmp php7.0-zip php7.0-curl php7.0-mbstring php7.0-gd php7.0-intl php7.0-mcrypt php-imagick php-redis php7.0-xmlrpc php7.0-sqlite3 php7.0-pgsql php7.0-mysql php7.0-ldap php7.0-json php7.0-cli
 
 # Run php config
 RUN /build/config_php.sh
